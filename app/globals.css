@@ -189,7 +189,7 @@ body {
 /* Gradient text for the brand label */
 .brandTopLeft span {
   display: inline-block;
-  background: linear-gradient(135deg, #3e1d77, #1c5caa);
+  background: linear-gradient(135deg, #06125a, #1c5caa);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -232,11 +232,13 @@ body {
 }
 
 .popup {
-  display: none;
+  display: block;
   position: absolute;
   padding: 8px 12px;
   border-radius: 999px;
   border: 0.5px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
   font-weight: 500;
   font-size: 14px;
   font-style: italic;
