@@ -1,6 +1,9 @@
 export default function Home() {
   return (
     <main className="fullscreen">
+      {/* World map background */}
+      <div className="backgroundMap" />
+
       {/* Background layers */}
       <div className="relief reliefA" />
       <div className="relief reliefB" />
@@ -40,6 +43,34 @@ export default function Home() {
 
       {/* Center headline */}
       <h1 className="headlineCenter">Maps for Good</h1>
+
+      {/* Mouse-following eye */}
+      <div id="eye" className="mouseEye">
+        <svg viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" stroke="currentColor" strokeWidth="1" />
+          <circle className="pupil" cx="12" cy="12" r="2" fill="currentColor" />
+        </svg>
+      </div>
+
+      <script dangerouslySetInnerHTML={{
+        __html: `
+          document.addEventListener('DOMContentLoaded', () => {
+            const eye = document.getElementById('eye');
+            const pupil = eye.querySelector('.pupil');
+            document.addEventListener('mousemove', (e) => {
+              const eyeRect = eye.getBoundingClientRect();
+              const eyeCenterX = eyeRect.left + eyeRect.width / 2;
+              const eyeCenterY = eyeRect.top + eyeRect.height / 2;
+              const angle = Math.atan2(e.clientY - eyeCenterY, e.clientX - eyeCenterX);
+              const maxDistance = 5; // limit pupil movement
+              const distance = Math.min(maxDistance, Math.sqrt((e.clientX - eyeCenterX)**2 + (e.clientY - eyeCenterY)**2) / 20);
+              const pupilX = Math.cos(angle) * distance;
+              const pupilY = Math.sin(angle) * distance;
+              pupil.style.transform = \`translate(\${pupilX}px, \${pupilY}px)\`;
+            });
+          });
+        `
+      }} />
     </main>
   );
 }
