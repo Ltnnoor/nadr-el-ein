@@ -255,11 +255,11 @@ body {
 }
 
 .whoWeAre {
-  top: 60px;
-  left: 0;
+  top: 100px;
+  left: 50px;
 }
 
 .whatWeDo {
-  top: 0;
-  left: 120px;
+  top: 100px;
+  left: 200px;
 }
