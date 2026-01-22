@@ -232,11 +232,13 @@ body {
 }
 
 .popup {
-  display: none;
+  display: block;
   position: absolute;
   padding: 8px 12px;
   border-radius: 999px;
   border: 0.5px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
   font-weight: 500;
   font-size: 14px;
   font-style: italic;
