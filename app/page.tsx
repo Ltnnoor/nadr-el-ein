@@ -39,6 +39,9 @@ export default function Home() {
     />
     <circle cx="12" cy="12" r="2" fill="currentColor" />
   </svg>
+  <span>nadr el ein</span>
+  <div className="popup whoWeAre">Who we are</div>
+  <div className="popup whatWeDo">What we do</div>
 </div>
 
       {/* Center headline */}
@@ -50,15 +53,14 @@ export default function Home() {
           <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" stroke="currentColor" strokeWidth="1" />
           <circle className="pupil" cx="12" cy="12" r="2" fill="currentColor" />
         </svg>
-        <div className="popup whoWeAre">Who we are</div>
-        <div className="popup whatWeDo">What we do</div>
       </div>
 
       <script dangerouslySetInnerHTML={{
         __html: `
           document.addEventListener('DOMContentLoaded', () => {
             const eye = document.getElementById('eye');
-            const pupil = eye.querySelector('.pupil');
+            const pupil = eye ? eye.querySelector('.pupil') : null;
+            if (!eye || !pupil) return;
             document.addEventListener('mousemove', (e) => {
               const eyeRect = eye.getBoundingClientRect();
               const eyeCenterX = eyeRect.left + eyeRect.width / 2;

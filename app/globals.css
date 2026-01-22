@@ -234,14 +234,12 @@ body {
 .popup {
   display: none;
   position: absolute;
-  top: 50px;
   padding: 8px 12px;
   border-radius: 999px;
   border: 0.5px solid rgba(255, 255, 255, 0.18);
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
   font-weight: 500;
   font-size: 14px;
+  font-style: italic;
   letter-spacing: 0.02em;
   white-space: nowrap;
   color: white;
@@ -249,14 +247,16 @@ body {
   z-index: 10000;
 }
 
-.mouseEye:hover .popup {
+.brandTopLeft:hover .popup {
   display: block;
 }
 
 .whoWeAre {
-  left: -120px;
+  top: 60px;
+  left: 0;
 }
 
 .whatWeDo {
-  right: -120px;
+  top: 0;
+  left: 120px;
 }
