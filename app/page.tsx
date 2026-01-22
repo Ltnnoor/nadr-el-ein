@@ -58,7 +58,10 @@ export default function Home() {
           d="M150 290c30-70 90-120 170-135 60-11 90 8 130 25 30 13 62 20 95 16 45-6 72-28 105-35 42-9 72 18 105 38 38 23 86 38 140 34 70-5 120-52 165-58 45-5 85 22 115 55 28 30 45 70 38 115-10 64-72 104-140 106-55 2-100-19-145-44-30-17-62-31-98-28-38 3-68 23-95 47-40 36-76 60-135 66-75 8-135-30-180-76-22-23-46-43-78-50-45-10-95 5-140-8-55-16-95-62-92-133z"
         />
       </svg>
-
+      {/* FOG MUST COME AFTER VIGNETTE */}
+      {/* Fog / clouds */}
+     <div className="fog fog1" aria-hidden="true" />
+     <div className="fog fog2" aria-hidden="true" />
       {/* Top-left brand */}
       <div className="brandTopLeft">
         <svg
@@ -77,10 +80,6 @@ export default function Home() {
         </svg>
 
         <span className="brandLabel">Nadr El Ein</span>
-
-        {/* Popups */}
-        <div className="popup whoWeAre">Who we are</div>
-        <div className="popup whatWeDo">What we do</div>
       </div>
 
       {/* Center headline */}
@@ -96,6 +95,13 @@ export default function Home() {
           />
           <circle ref={pupilRef} className="pupil" cx="12" cy="12" r="2.6" fill="currentColor" />
         </svg>
+      </div>
+
+      {/* Popup layer (always on top) */}
+      <div className="popupLayer">
+        <div className="popup whoWeAre">WHO WE ARE</div>
+        <div className="popup whatWeDo">WHAT WE DO</div>
+         <div className="popup About">ABOUT</div>
       </div>
     </main>
   );

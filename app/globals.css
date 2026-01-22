@@ -181,53 +181,64 @@ body {
 }
 
 /* =========================
-   POPUPS
+   FULL-WIDTH BANNERS
 ========================= */
 
 .popup {
+  position: fixed;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 64px;
+
   display: none;
-  position: absolute;
-  padding: 8px 12px;
-  border-radius: 999px;
-  border: 0.5px solid rgba(255, 255, 255, 0.343);
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
-  font-weight: 500;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+
+  font-weight: 600;
   font-size: 14px;
-  font-style: italic;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
   color: white;
-  box-shadow: 4 10px 30px rgba(0, 0, 0, 0);
-  z-index: 10000;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
 }
 
-.brandTopLeft:hover .popup {
-  display: block;
-}
-
+/* Vertical positions */
 .whoWeAre {
-  top: 80px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 100px;
 }
 
 .whatWeDo {
-  top: 120px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 164px;
 }
+.About {
+  top: 228px;
+}
+
+/* Show both on hover */
+.brandTopLeft:hover ~ .popupLayer .popup {
+  display: flex;
+}
+
+
 
 /* =========================
    BRAND (TOP LEFT)
 ========================= */
 
 .brandTopLeft {
-  position: absolute;
+  position: fixed;
   top: 40px;
   left: 40px;
-  z-index: 5;
+  z-index: 31000; /* above vignette/map */
 
   display: flex;
   align-items: center;
@@ -236,17 +247,101 @@ body {
   font-weight: 700;
   font-size: clamp(16px, 2.5vw, 24px);
 }
+/* =========================
+   POPUP LAYER (TOPMOST)
+========================= */
+
+.popupLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 30000; /* 🔥 higher than everything else */
+  pointer-events: none; /* allow background interaction */
+}
 
 .brandEye {
   width: clamp(18px, 3vw, 24px);
 }
 
-.popup {
+/* =========================
+   FOG / CLOUDS (HIGH VISIBILITY + MOVING)
+========================= */
+
+.fog {
   position: absolute;
-  top: -30px;
-  left: -10%;
-  
-  padding: clamp(8px, 1.5vw, 12px) clamp(12px, 2vw, 16px);
-  
-  background-color: rgba(0,0,0,0.7);
-  }
+  inset: -15%;
+  pointer-events: none;
+  z-index: 4;
+
+  /* This makes it look like fog instead of brightness */
+  opacity: 0.65;
+  filter: blur(28px) contrast(2.25);
+  transform: translate3d(0, 0, 0);
+}
+
+/* Big layer */
+.fog1 {
+  background:
+    radial-gradient(closest-side at 20% 60%, rgba(255,255,255,0.85), transparent 65%),
+    radial-gradient(closest-side at 45% 55%, rgba(255,255,255,0.55), transparent 70%),
+    radial-gradient(closest-side at 75% 35%, rgba(255,255,255,0.70), transparent 68%),
+    radial-gradient(closest-side at 60% 75%, rgba(255,255,255,0.40), transparent 68%);
+  animation: fogDrift1 10s linear infinite;
+}
+
+/* Second layer, different speed/direction */
+.fog2 {
+  opacity: 0.30;
+  filter: blur(28px) contrast(1.15);
+  background:
+    radial-gradient(closest-side at 25% 60%, rgba(210,230,255,0.65), transparent 70%),
+    radial-gradient(closest-side at 55% 30%, rgba(210,230,255,0.45), transparent 72%),
+    radial-gradient(closest-side at 85% 55%, rgba(210,230,255,0.55), transparent 72%);
+  animation: fogDrift2 16s linear infinite;
+}
+
+@keyframes fogDrift1 {
+  0%   { transform: translate3d(-8%, 0%, 0) scale(1.05); }
+  50%  { transform: translate3d( 8%, 1%, 0) scale(1.10); }
+  100% { transform: translate3d(-8%, 0%, 0) scale(1.05); }
+}
+
+@keyframes fogDrift2 {
+  0%   { transform: translate3d( 10%, 1%, 0) scale(1.10); }
+  50%  { transform: translate3d(-10%,-1%, 0) scale(1.18); }
+  100% { transform: translate3d( 10%, 1%, 0) scale(1.10); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fog1, .fog2 { animation: none; }
+}
+
+.fog { outline: 2px solid rgb(255, 255, 255); }
+/* =========================
+   LAYER ORDER (CRITICAL)
+========================= */
+
+.backgroundMap { z-index: 0; }
+
+.relief { z-index: 2; }
+
+.world { z-index: 1; }
+
+.vignette { 
+  z-index: 3; 
+}
+
+.fog { 
+  z-index: 6; 
+}
+
+.headlineCenter { 
+  z-index: 5; 
+}
+
+.brandTopLeft { 
+  z-index: 4; 
+}
+
+.popupLayer { 
+  z-index: 7; 
+}
