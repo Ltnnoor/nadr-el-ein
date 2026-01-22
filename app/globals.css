@@ -16,8 +16,8 @@ body {
 }
 
 body {
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI,
-    Roboto, Helvetica, Arial;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial;
   background: linear-gradient(180deg, #050914, #060b1a);
   color: rgba(255, 255, 255, 0.95);
 }
@@ -33,13 +33,15 @@ body {
   overflow: hidden;
 
   display: grid;
-  place-items: center; /* 👈 forces absolute centering */
+  place-items: center; /* true centering */
 }
+
 /* =========================
    CENTER HEADLINE
 ========================= */
 
 .headlineCenter {
+  position: relative;
   z-index: 4;
   margin: 0;
 
@@ -51,8 +53,7 @@ body {
   text-align: center;
   color: rgba(255, 255, 255, 0.96);
 
-  text-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.55),
+  text-shadow: 0 20px 60px rgba(0, 0, 0, 0.55),
     0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
@@ -96,8 +97,7 @@ body {
 }
 
 .reliefA {
-  background:
-    radial-gradient(
+  background: radial-gradient(
       800px 520px at 25% 35%,
       rgba(255, 255, 255, 0.12),
       transparent 60%
@@ -110,8 +110,7 @@ body {
 }
 
 .reliefB {
-  background:
-    radial-gradient(
+  background: radial-gradient(
       600px 420px at 55% 30%,
       rgba(85, 58, 237, 0.25),
       transparent 62%
@@ -130,7 +129,7 @@ body {
 
 .vignette {
   position: absolute;
-  inset: 5;
+  inset: 0; /* ✅ FIXED (was '5') */
   z-index: 2;
   pointer-events: none;
 
@@ -141,64 +140,10 @@ body {
     rgba(0, 0, 0, 0.7) 100%
   );
 }
-.brandTopLeft {
-  position: fixed;
-  top: 22px;
-  left: 22px;
-  z-index: 10000; /* 🔥 ABOVE EVERYTHING */
 
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-
-  padding: 12px 18px;
-  border-radius: 999px;
-
-  border: 0.5px solid rgba(255, 255, 255, 0.18);
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(10px);
-
-  font-weight: 700;
-  font-size: 19px;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-
-  color: linear-gradient(135deg, #7c3aed, #22c55e);
-  font-family: 'Charter', serif;
-  font-style: normal;
-  text-transform: uppercase;
-  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.45);
-}
-
-
-.brandEye {
-  width: 30px;
-  height: 30px;
-  display: block;
-  flex-shrink: 0;
-}
-
-.brandDot {
-  width: 20px;
-  height: 20px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #5929ad, #2284c5);
-  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.18);
-}
-
-/* Gradient text for the brand label */
-.brandTopLeft span {
-  display: inline-block;
-  background: linear-gradient(135deg, #06125a, #1c5caa);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Make sure vignette doesn't cover clicks/visibility */
-.vignette {
-  pointer-events: none;
-}
+/* =========================
+   WORLD MAP BACKGROUND
+========================= */
 
 .backgroundMap {
   position: absolute;
@@ -209,8 +154,12 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.4; /* Increased for visibility */
+  opacity: 0.4;
 }
+
+/* =========================
+   MOUSE-FOLLOWING EYE
+========================= */
 
 .mouseEye {
   position: fixed;
@@ -231,8 +180,12 @@ body {
   transition: transform 0.1s ease-out;
 }
 
+/* =========================
+   POPUPS
+========================= */
+
 .popup {
-  display: block;
+  display: none;
   position: absolute;
   padding: 8px 12px;
   border-radius: 999px;
@@ -262,4 +215,37 @@ body {
 .whatWeDo {
   top: 100px;
   left: 200px;
+}
+
+/* =========================
+   BRAND (TOP LEFT)
+========================= */
+
+.brandTopLeft {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  font-weight: 700;
+  font-size: clamp(16px, 2.5vw, 24px);
+}
+
+.brandEye {
+  width: clamp(18px, 3vw, 24px);
+}
+
+.popup {
+  position: absolute;
+  top: -30px;
+  left: -100%;
+  
+  padding: clamp(8px, 1.5vw, 12px) clamp(12px, 2vw, 16px);
+  
+  background-color: rgba(0,0,0,0.7);
+  
 }

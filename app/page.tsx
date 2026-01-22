@@ -1,7 +1,43 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
 export default function Home() {
+  const eyeRef = useRef<HTMLDivElement | null>(null);
+  const pupilRef = useRef<SVGCircleElement | null>(null);
+
+  useEffect(() => {
+    const eye = eyeRef.current;
+    const pupil = pupilRef.current;
+    if (!eye || !pupil) return;
+
+    const onMove = (e: MouseEvent) => {
+      const rect = eye.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+
+      const angle = Math.atan2(dy, dx);
+
+      // Limit pupil movement
+      const maxDistance = 5;
+      const distance = Math.min(maxDistance, Math.sqrt(dx * dx + dy * dy) / 20);
+
+      const px = Math.cos(angle) * distance;
+      const py = Math.sin(angle) * distance;
+
+      pupil.style.transform = `translate(${px}px, ${py}px)`;
+    };
+
+    document.addEventListener("mousemove", onMove);
+    return () => document.removeEventListener("mousemove", onMove);
+  }, []);
+
   return (
     <main className="fullscreen">
-      {/* World map background */}
+      {/* World map background image (optional) */}
       <div className="backgroundMap" />
 
       {/* Background layers */}
@@ -9,7 +45,7 @@ export default function Home() {
       <div className="relief reliefB" />
       <div className="vignette" />
 
-      {/* World map */}
+      {/* World map line art */}
       <svg
         className="world"
         viewBox="0 0 1200 600"
@@ -23,58 +59,44 @@ export default function Home() {
         />
       </svg>
 
-      {/* Top-left brand (ON TOP) */}
+      {/* Top-left brand */}
       <div className="brandTopLeft">
-  <svg
-    className="brandEye"
-    viewBox="0 0 23 23"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-  >
-    <path
-      d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"
-      stroke="currentColor"
-      strokeWidth="1"
-    />
-    <circle cx="12" cy="12" r="2" fill="currentColor" />
-  </svg>
-  <span>nadr el ein</span>
-  <div className="popup whoWeAre">Who we are</div>
-  <div className="popup whatWeDo">What we do</div>
-</div>
+        <svg
+          className="brandEye"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"
+            fill="none"
+            stroke="white"
+            strokeWidth="1.6"
+          />
+          <circle cx="12" cy="12" r="2.6" fill="white" />
+        </svg>
+
+        <span className="brandLabel">Nadr El Ein</span>
+
+        {/* Popups */}
+        <div className="popup whoWeAre">Who we are</div>
+        <div className="popup whatWeDo">What we do</div>
+      </div>
 
       {/* Center headline */}
       <h1 className="headlineCenter">Maps for Good</h1>
 
       {/* Mouse-following eye */}
-      <div id="eye" className="mouseEye">
-        <svg viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" stroke="currentColor" strokeWidth="1" />
-          <circle className="pupil" cx="12" cy="12" r="2" fill="currentColor" />
+      <div ref={eyeRef} className="mouseEye" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"
+            stroke="currentColor"
+            strokeWidth="1.6"
+          />
+          <circle ref={pupilRef} className="pupil" cx="12" cy="12" r="2.6" fill="currentColor" />
         </svg>
       </div>
-
-      <script dangerouslySetInnerHTML={{
-        __html: `
-          document.addEventListener('DOMContentLoaded', () => {
-            const eye = document.getElementById('eye');
-            const pupil = eye ? eye.querySelector('.pupil') : null;
-            if (!eye || !pupil) return;
-            document.addEventListener('mousemove', (e) => {
-              const eyeRect = eye.getBoundingClientRect();
-              const eyeCenterX = eyeRect.left + eyeRect.width / 2;
-              const eyeCenterY = eyeRect.top + eyeRect.height / 2;
-              const angle = Math.atan2(e.clientY - eyeCenterY, e.clientX - eyeCenterX);
-              const maxDistance = 5; // limit pupil movement
-              const distance = Math.min(maxDistance, Math.sqrt((e.clientX - eyeCenterX)**2 + (e.clientY - eyeCenterY)**2) / 20);
-              const pupilX = Math.cos(angle) * distance;
-              const pupilY = Math.sin(angle) * distance;
-              pupil.style.transform = \`translate(\${pupilX}px, \${pupilY}px)\`;
-            });
-          });
-        `
-      }} />
     </main>
   );
 }
