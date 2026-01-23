@@ -7,6 +7,9 @@ export default function Home() {
   const pupilRef = useRef<SVGCircleElement | null>(null);
 
   const [count, setCount] = useState(0);
+  const [popupsVisible, setPopupsVisible] = useState(false);
+  const popupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   // Counter 0 -> 27
  useEffect(() => {
   let current = 0;
@@ -55,6 +58,21 @@ export default function Home() {
     return () => document.removeEventListener("mousemove", onMove);
   }, []);
 
+  const handleBrandMouseEnter = () => {
+    setPopupsVisible(true);
+    // Clear any pending timeout
+    if (popupTimeoutRef.current) {
+      clearTimeout(popupTimeoutRef.current);
+    }
+  };
+
+  const handleBrandMouseLeave = () => {
+    // Set timeout to hide popups after 3 seconds
+    popupTimeoutRef.current = setTimeout(() => {
+      setPopupsVisible(false);
+    }, 3000);
+  };
+
   return (
     <main className="fullscreen">
       {/* World map background image (optional) */}
@@ -83,7 +101,11 @@ export default function Home() {
      <div className="fog fog1" aria-hidden="true" />
      <div className="fog fog2" aria-hidden="true" />
       {/* Top-left brand */}
-      <div className="brandTopLeft">
+      <div 
+        className="brandTopLeft"
+        onMouseEnter={handleBrandMouseEnter}
+        onMouseLeave={handleBrandMouseLeave}
+      >
         <svg
           className="brandEye"
           viewBox="0 0 24 24"
@@ -118,7 +140,7 @@ export default function Home() {
       </div>
 
       {/* Popup layer (always on top) */}
-      <div className="popupLayer">
+      <div className={`popupLayer ${popupsVisible ? 'visible' : ''}`}>
         <div className="popup whoWeAre">WHO WE ARE</div>
         <div className="popup whatWeDo">WHAT WE DO</div>
          <div className="popup About">ABOUT</div>

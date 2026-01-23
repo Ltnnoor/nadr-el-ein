@@ -223,8 +223,13 @@ body {
   top: 228px;
 }
 
-/* Show both on hover */
+/* Show on hover */
 .brandTopLeft:hover ~ .popupLayer .popup {
+  display: flex;
+}
+
+/* Show when popupLayer has visible class */
+.popupLayer.visible .popup {
   display: flex;
 }
 
@@ -331,7 +336,7 @@ body {
 }
 
 .projectNumber {
-  font-size: 24px;
+  font-size: 34px;
   font-weight: 700;
   line-height: 1;
 }
