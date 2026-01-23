@@ -316,6 +316,32 @@ body {
 }
 
 .fog { outline: 2px solid rgb(255, 255, 255); }
+
+.projectCounter {
+  position: fixed;
+  left: 32px;
+  bottom: 32px;
+  z-index: 999999; /* force above all layers */
+
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.projectNumber {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.projectLabel {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  opacity: 0.8;
+}
 /* =========================
    LAYER ORDER (CRITICAL)
 ========================= */
@@ -344,4 +370,7 @@ body {
 
 .popupLayer { 
   z-index: 7; 
+}
+.projectCounter { 
+  z-index: 8; 
 }

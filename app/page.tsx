@@ -1,10 +1,30 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const eyeRef = useRef<HTMLDivElement | null>(null);
   const pupilRef = useRef<SVGCircleElement | null>(null);
+
+  const [count, setCount] = useState(0);
+  // Counter 0 -> 27
+ useEffect(() => {
+  let current = 0;
+  const target = 27;
+
+  const step = () => {
+    current += 1;
+    setCount(current);
+
+    if (current < target) {
+      const delay = Math.max(180, 400 - current * 6); // slows down near the end
+      setTimeout(step, delay);
+    }
+  };
+
+  step();
+}, []);
+
 
   useEffect(() => {
     const eye = eyeRef.current;
@@ -102,6 +122,11 @@ export default function Home() {
         <div className="popup whoWeAre">WHO WE ARE</div>
         <div className="popup whatWeDo">WHAT WE DO</div>
          <div className="popup About">ABOUT</div>
+      </div>
+    {/* Bottom-left counter ✅ (MUST be inside return) */}
+      <div className="projectCounter" aria-label="Projects completed">
+        <span className="projectNumber">{count}</span>
+        <span className="projectLabel">projects completed</span>
       </div>
     </main>
   );
